@@ -9,16 +9,14 @@ const personalMovieDB = {
     privat: false,
 
     start() {
-        let numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-        personalMovieDB.count = numberOfFilms;
-
-        while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
-            numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+        personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+        while (personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
+            personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
         }
     },
 
     rememberMyFilms() {
-        for (let i = 1; i < personalMovieDB.count; i++) {
+        for (let i = 0; i < personalMovieDB.count; i++) {
             const lastMovie = prompt('Последний просмотренный фильм?'),
                 lastMovieRate = prompt('На сколько оцените его ?');
             if (lastMovie != null && lastMovieRate != null && lastMovie != '' && lastMovieRate != '' && lastMovie.length < 50) {
