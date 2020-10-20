@@ -15,74 +15,76 @@ P.S. Здесь есть несколько вариантов решения з
 
 5) Фильмы должны быть отсортированы по алфавиту */
 'use strict';
+document.addEventListener('DOMContentLoaded', () => {
 
-const movieDB = {
-    movies: [
-        "Логан",
-        "Лига справедливости",
-        "Ла-ла лэнд",
-        "Одержимость",
-        "Скотт Пилигрим против..."
-    ]
-};
+    const movieDB = {
+        movies: [
+            "Логан",
+            "Лига справедливости",
+            "Ла-ла лэнд",
+            "Одержимость",
+            "Скотт Пилигрим против..."
+        ]
+    };
 
-const adv = document.querySelectorAll('.promo__adv img'),
-    poster = document.querySelector('.promo__bg'),
-    genre = poster.querySelector('.promo__genre'),
-    movieList = document.querySelector('.promo__interactive-list'),
-    addButton = document.querySelector('button'),
-    deleteButton = document.querySelector('.delete'),
-    check = document.querySelector('#check');
+    const adv = document.querySelectorAll('.promo__adv img'),
+        poster = document.querySelector('.promo__bg'),
+        genre = poster.querySelector('.promo__genre'),
+        movieList = document.querySelector('.promo__interactive-list'),
+        addButton = document.querySelector('button'),
+        deleteButton = document.querySelector('.delete'),
+        check = document.querySelector('#check');
 
 
-adv.forEach(item => {
-    item.remove();
-});
+    adv.forEach(item => {
+        item.remove();
+    });
 
-check.addEventListener('click', () => {
-    if (check.checked) {
-        console.log('Добавляем любимый фильм');
-    }
-});
+    check.addEventListener('click', () => {
+        if (check.checked) {
+            console.log('Добавляем любимый фильм');
+        }
+    });
 
-addButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (document.querySelector('.adding__input').value.length < 21) {
-        movieDB.movies.push(document.querySelector('.adding__input').value);
-    } else {
-        movieDB.movies.push(`${document.querySelector('.adding__input').value.slice(0,21)}...`);
-    }
-    createMovieList(movieDB.movies, movieList);
-});
+    addButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (document.querySelector('.adding__input').value.length < 21) {
+            movieDB.movies.push(document.querySelector('.adding__input').value);
+        } else {
+            movieDB.movies.push(`${document.querySelector('.adding__input').value.slice(0,21)}...`);
+        }
+        createMovieList(movieDB.movies, movieList);
+    });
 
-genre.textContent = 'драма';
+    genre.textContent = 'драма';
 
-poster.style.backgroundImage = 'url("img/bg.jpg")';
+    poster.style.backgroundImage = 'url("img/bg.jpg")';
 
-const sortArr = (arr) => {
-    arr.sort();
-};
+    const sortArr = (arr) => {
+        arr.sort();
+    };
 
-function createMovieList(films, parent) {
-    parent.innerHTML = "";
-    sortArr(films);
+    function createMovieList(films, parent) {
+        parent.innerHTML = "";
+        sortArr(films);
 
-    films.forEach((film, i) => {
-        parent.innerHTML += `
+        films.forEach((film, i) => {
+            parent.innerHTML += `
             <li class="promo__interactive-item">${i + 1} ${film}
                 <div class="delete"></div>
             </li>
         `;
-    });
-
-    document.querySelectorAll('.delete').forEach((btn, i) => {
-        btn.addEventListener('click', () => {
-            btn.parentElement.remove();
-            movieDB.movies.splice(i, 1);
-
-            createMovieList(films, parent);
         });
-    });
-}
 
-createMovieList(movieDB.movies, movieList);
+        document.querySelectorAll('.delete').forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.remove();
+                movieDB.movies.splice(i, 1);
+
+                createMovieList(films, parent);
+            });
+        });
+    }
+
+    createMovieList(movieDB.movies, movieList);
+});
