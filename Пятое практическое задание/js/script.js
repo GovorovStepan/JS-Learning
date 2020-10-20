@@ -31,33 +31,43 @@ document.addEventListener('DOMContentLoaded', () => {
         poster = document.querySelector('.promo__bg'),
         genre = poster.querySelector('.promo__genre'),
         movieList = document.querySelector('.promo__interactive-list'),
-        addButton = document.querySelector('button'),
-        deleteButton = document.querySelector('.delete'),
-        check = document.querySelector('#check');
+        addForm = document.querySelector('form.add'),
+        addInput = addForm.querySelector('.adding__input'),
+        checkbox = addForm.querySelector('[type="checkbox"]');
 
 
     adv.forEach(item => {
         item.remove();
     });
 
-    check.addEventListener('click', () => {
-        if (check.checked) {
-            console.log('Добавляем любимый фильм');
-        }
-    });
 
-    addButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (document.querySelector('.adding__input').value.length < 21) {
-            movieDB.movies.push(document.querySelector('.adding__input').value);
-        } else {
-            movieDB.movies.push(`${document.querySelector('.adding__input').value.slice(0,21)}...`);
+    addForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        let newFilm = addInput.value;
+        const favorite = checkbox.checked;
+
+        if (newFilm) {
+
+            if (newFilm.length > 21) {
+                newFilm = `${newFilm.substring(0, 22)}...`;
+            }
+
+            if (favorite) {
+                console.log("Добавляем любимый фильм");
+            }
+
+            movieDB.movies.push(newFilm);
+            sortArr(movieDB.movies);
+    
+            createMovieList(movieDB.movies, movieList);
         }
-        createMovieList(movieDB.movies, movieList);
+
+        event.target.reset();
+
     });
 
     genre.textContent = 'драма';
-
     poster.style.backgroundImage = 'url("img/bg.jpg")';
 
     const sortArr = (arr) => {
